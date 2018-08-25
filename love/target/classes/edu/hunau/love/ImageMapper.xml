@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hunau.love.mapper.ImageMapper">
+  <resultMap id="BaseResultMap" type="edu.hunau.love.pojo.Image">
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="image_username" jdbcType="VARCHAR" property="imageUsername" />
+    <result column="image_image" jdbcType="VARCHAR" property="imageImage" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="edu.hunau.love.pojo.Image">
+    <result column="image_introduce" jdbcType="LONGVARCHAR" property="imageIntroduce" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, image_username, image_image
+  </sql>
+  <sql id="Blob_Column_List">
+    image_introduce
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="edu.hunau.love.pojo.ImageExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_image
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="edu.hunau.love.pojo.ImageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_image
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_image
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_image
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="edu.hunau.love.pojo.ImageExample">
+    delete from t_image
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="edu.hunau.love.pojo.Image">
+    insert into t_image (id, image_username, image_image, 
+      image_introduce)
+    values (#{id,jdbcType=CHAR}, #{imageUsername,jdbcType=VARCHAR}, #{imageImage,jdbcType=VARCHAR}, 
+      #{imageIntroduce,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="edu.hunau.love.pojo.Image">
+    insert into t_image
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="imageUsername != null">
+        image_username,
+      </if>
+      <if test="imageImage != null">
+        image_image,
+      </if>
+      <if test="imageIntroduce != null">
+        image_introduce,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="imageUsername != null">
+        #{imageUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="imageImage != null">
+        #{imageImage,jdbcType=VARCHAR},
+      </if>
+      <if test="imageIntroduce != null">
+        #{imageIntroduce,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="edu.hunau.love.pojo.ImageExample" resultType="java.lang.Long">
+    select count(*) from t_image
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_image
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=CHAR},
+      </if>
+      <if test="record.imageUsername != null">
+        image_username = #{record.imageUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageImage != null">
+        image_image = #{record.imageImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imageIntroduce != null">
+        image_introduce = #{record.imageIntroduce,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_image
+    set id = #{record.id,jdbcType=CHAR},
+      image_username = #{record.imageUsername,jdbcType=VARCHAR},
+      image_image = #{record.imageImage,jdbcType=VARCHAR},
+      image_introduce = #{record.imageIntroduce,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_image
+    set id = #{record.id,jdbcType=CHAR},
+      image_username = #{record.imageUsername,jdbcType=VARCHAR},
+      image_image = #{record.imageImage,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="edu.hunau.love.pojo.Image">
+    update t_image
+    <set>
+      <if test="imageUsername != null">
+        image_username = #{imageUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="imageImage != null">
+        image_image = #{imageImage,jdbcType=VARCHAR},
+      </if>
+      <if test="imageIntroduce != null">
+        image_introduce = #{imageIntroduce,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="edu.hunau.love.pojo.Image">
+    update t_image
+    set image_username = #{imageUsername,jdbcType=VARCHAR},
+      image_image = #{imageImage,jdbcType=VARCHAR},
+      image_introduce = #{imageIntroduce,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="edu.hunau.love.pojo.Image">
+    update t_image
+    set image_username = #{imageUsername,jdbcType=VARCHAR},
+      image_image = #{imageImage,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

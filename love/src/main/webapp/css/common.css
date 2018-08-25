@@ -1,0 +1,202 @@
+body {
+    font-family: "Microsoft Yahei";
+    font-size: 14px;
+    line-height: 1.42857143;
+	color: #333;}
+a {
+	transition:all 0.3s;
+	text-decoration:none;
+	color:#333333;
+}
+a:active, a:hover {
+	outline: 0;
+	text-decoration: underline;
+    transition:all 0.3s;
+}
+ a:hover{
+	text-decoration: none;
+}  
+*{margin:0;padding:0;list-style-type:none;}
+a,img{border:0;}
+
+.fr {
+    float: right;
+}
+.fl{
+	float: left;
+}
+ul {
+    list-style: none;
+}
+.flul li, .contentfl li {
+    float: left;
+}
+.head_top{
+	height: 74px;
+	width: 980px;
+	margin: auto;
+}
+.search{
+	float: right;
+	padding-top: 20px;
+}
+.login{
+	float: right;
+	padding-left: 30px;
+	height: 74px;
+	line-height: 74px;
+	text-align: center;
+}
+.userImg{
+	width:41px;
+	height: 41px;
+	border-radius: 5px;
+	overflow: hidden;
+}
+#logout{
+	padding-left: 10px;
+}
+
+
+.header {
+    background: #fff;
+    height: 55px;
+}
+
+
+.top{
+	margin: auto;
+	background: #212121;
+	line-height: 40px;
+}
+.Indextitle { 
+	width: 100%; 
+	height: 55px; 
+	margin: 0 auto; 
+	background: rgba(255, 255,255, 0.65)!important; 
+	filter: Alpha(opacity=85); background: #fff; /*　使用IE专属滤镜实现IE背景透明*/ 
+	position: absolute; 
+	z-index: 999;  
+	border-bottom: 1px solid #ff6666; 
+}
+.cc_c { 
+	width:980px; 
+	height: auto; 
+	margin: 0 auto; 
+}
+.welcome { 
+	width: auto; 
+	float: left; 
+	line-height: 40px; 
+	font-size: 12px; 
+	color: #fff; 
+}
+.call_header { 
+	width: auto; 
+	float: right; 
+	text-align: right; 
+	font-size: 14px; 
+	line-height: 40px; 
+	color: #fff; 
+}
+.call_header b { 
+	color: #0585ea; 
+}
+.logo { 
+	width: 250px; 
+	float: left; 
+	position: relative; 
+	padding-top: 10px;
+}
+.menu { 
+	float: right; 
+}
+.menu ul { 
+	margin: 0px;
+	padding: 0px; 
+}
+.menu ul li { 
+	width: 110px; 
+	height: 53px; 
+	float: left; 
+	padding: 1px;
+	margin-left: 64px;
+}
+.menu ul li:nth-of-type(1){ 
+	
+	margin-left:0px;
+}
+.menu ul li a:link, .menu ul li a:visited { 
+	width: 115px; 
+	height: 53px; 
+	color: #fff; 
+	display: block; 
+	padding: 14px 0px; 
+}
+.menu ul li a:hover, .menu ul li .nav_stop { 
+	width: 115px; 
+	height: 53px; 
+	padding: 14px 0px;
+	border: solid 2px #fff;
+	color: #fff !important; 
+	display: block; 
+}
+.menu ul li span { 
+	width: 120px; 
+	float: left; 
+	text-align: center; 
+	padding-top: 6px; 
+}
+.name_ch { 
+	width: 120px; 
+	height: 16px; 
+	line-height: 16px; 
+	padding-top: 60px; 
+	font-size: 14px; 
+}
+#J_m_nav{
+	 background:rgba(255, 102,102, 0.85)!important;
+     filter:Alpha(opacity=85); background:#fff;
+}
+.nav_fixed { 
+	height: 90px; 
+	position: fixed; 
+	background: rgba(255, 255,255, 1)!important; 
+	filter: Alpha(opacity=100); background: #fff; /*　使用IE专属滤镜实现IE背景透明*/ 
+	}
+
+.boot{
+	width: 100%;
+	height: 80px;
+	background-color: #333;
+	color: #fff;
+	font-size: 18px;
+	padding: 10px 0px;
+}
+	
+#jswbox{
+	width:1100px;
+	height:600px;
+	margin:0 auto;
+	position:relative;}
+#jswbox ul{
+	position:relative;
+	top: -80px;
+	}
+#jswbox li{
+	position:absolute;
+	width:0;
+	height:0;
+	z-index:0;
+	cursor:pointer;
+	overflow:hidden;
+	top:152px;
+	left:10px;}
+#jswbox li img{
+	width:100%;
+	vertical-align:top;
+	float:left;}
+#jswbox .prev, #jswbox .next{display:none;}
+	
+
+

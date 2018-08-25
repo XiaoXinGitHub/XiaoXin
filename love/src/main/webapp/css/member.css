@@ -1,0 +1,202 @@
+*{
+	padding: 0;
+	margin: 0;
+	font-family: "微软雅黑";
+}
+
+.wrap{
+	width: 1024px;
+	margin: 0 auto;
+    zoom: 1;
+}
+
+.member{
+	height: 230px;
+	font-size: 16px;
+	width: 800px;
+	margin-top: 30px;
+}
+.member table tr td{
+	border: none;
+	padding-top: 20px;
+}
+.title_dot{
+	color: #ff9291;
+	font-size: 20px;
+}
+.title_words{
+	font-size: 18px;
+}
+.member_img{
+	width: 180px;
+	height: 180px;
+	float: left;
+	overflow: hidden;
+	position:relative;
+}
+.editPhoto{
+	position:absolute;
+	top:62px;
+	left:42px;
+	display:none;
+	color:#fff;
+	cursor:pointer;
+}
+.member_info1{
+	float: left;
+	margin-left: 60px;
+}
+.member_info2{
+	float: left;
+	margin-left: 80px;
+}
+.activity{
+	width: 1024px;
+	height: 510px;
+	margin: auto;
+}
+.activity_row1{
+	height: 202px;
+	margin-bottom: 20px;
+}
+.activity_row1 div:nth-of-type(1){
+	margin-left: 0px !important;
+}
+.activity_col{
+	margin-left: 14px;
+	width: 245px;
+	height: 202px;
+	overflow: hidden;
+	float: left;
+}
+.activity_bg1{
+	background-color: #ff6867;
+	height: 45px;
+	width: 100%;
+	color: #fff;
+}
+.activity_bg1_1{
+	height: 45px;
+	width: 100%;
+	color: #000;
+}
+.activity_bg1,.activity_bg1_1 p{
+	font-size: 24px;
+	padding-left: 15px;
+	letter-spacing: 5px;
+	line-height: 45px;
+}
+.activity_bg2{
+	background-color: #fe8282;
+	height: 155px;
+	width: 100%;
+	color: #fff;
+}
+.activity_bg2_2{
+	height: 155px;
+	width: 100%;
+	color: #000;
+}
+.activity_bg2,.activity_bg2_2 p{
+	padding: 5px 10px;
+	letter-spacing: 3px;
+	font-size: 12px;
+}
+.honor{
+	width: 1024px;
+	height: 645px;
+	margin: auto;
+	margin-top: 20px;
+	
+}
+.honor_content{
+	width: 1024px;
+	height: 560px;
+}
+.honor_date{
+	width: 80px;
+	height: 556px;
+	float: left;
+	background: url(../images/member/date.png) no-repeat;
+}
+.honor_list{
+	font-size: 18px;
+	z-index: 9999;
+	float: left;
+}
+.honor_list p:nth-of-type(odd){
+	margin-left: -10px;
+}
+.p1{
+	padding-top: 3px;
+	margin-left: -10px;
+}
+.p2{
+	padding-top: 26px;
+}
+.p3{
+	padding-top: 36px;
+}
+.p4{
+	padding-top: 39px;
+}
+.p5{
+	padding-top: 52px;
+}
+.p6{
+	padding-top: 39px;
+}
+.p7{
+	padding-top: 54px;
+}
+.p8{
+	padding-top: 39px;
+}
+.honor_color{
+	color: #ff6565;
+}
+.honor_img{
+	width: 275px;
+	float: left;
+	margin-left: 70px;
+	margin-top: 50px;
+}
+.T_img1 img{
+	transform:rotate(7deg);
+-ms-transform:rotate(7deg); 	/* IE 9 */
+-moz-transform:rotate(7deg); 	/* Firefox */
+-webkit-transform:rotate(7deg); /* Safari 和 Chrome */
+-o-transform:rotate(7deg); 	/* Opera */
+}
+.T_img2{
+	margin-top: 20px;
+}
+.T_img2 img{
+	transform:rotate(-7deg);
+-ms-transform:rotate(-7deg); 	/* IE 9 */
+-moz-transform:rotate(-7deg); 	/* Firefox */
+-webkit-transform:rotate(-7deg); /* Safari 和 Chrome */
+-o-transform:rotate(-7deg); 	/* Opera */
+}
+
+
+.note{
+	width: 1024px;
+	height: 600px;
+	margin: 30px auto;
+	background: linear-gradient(to left, #f00, #f00) left top no-repeat, 
+                linear-gradient(to bottom, #f00, #f00) left top no-repeat, 
+                linear-gradient(to left, #f00, #f00) right top no-repeat,
+                linear-gradient(to bottom, #f00, #f00) right top no-repeat, 
+                linear-gradient(to left, #f00, #f00) left bottom no-repeat,
+                linear-gradient(to bottom, #f00, #f00) left bottom no-repeat,
+                linear-gradient(to left, #f00, #f00) right bottom no-repeat,
+                linear-gradient(to left, #f00, #f00) right bottom no-repeat;
+    background-size: 1px 80px, 80px 1px, 1px 80px, 80px 1px;  
+}
+.note p{
+	text-indent: 2em;
+	padding: 5px 15px;
+	font-size: 16px;
+	letter-spacing: 3px;
+}

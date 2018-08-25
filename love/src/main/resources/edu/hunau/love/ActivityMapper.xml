@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hunau.love.mapper.ActivityMapper">
+  <resultMap id="BaseResultMap" type="edu.hunau.love.pojo.Activity">
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="a_activity" jdbcType="VARCHAR" property="aActivity" />
+    <result column="a_dotime" jdbcType="DATE" property="aDotime" />
+    <result column="a_address" jdbcType="VARCHAR" property="aAddress" />
+    <result column="a_manager" jdbcType="VARCHAR" property="aManager" />
+    <result column="a_atypes" jdbcType="CHAR" property="aAtypes" />
+    <result column="a_teamname" jdbcType="VARCHAR" property="aTeamname" />
+    <result column="a_counts" jdbcType="INTEGER" property="aCounts" />
+    <result column="a_on" jdbcType="CHAR" property="aOn" />
+    <result column="a_checked" jdbcType="CHAR" property="aChecked" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="edu.hunau.love.pojo.Activity">
+    <result column="a_content" jdbcType="LONGVARCHAR" property="aContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, a_activity, a_dotime, a_address, a_manager, a_atypes, a_teamname, a_counts, a_on, 
+    a_checked
+  </sql>
+  <sql id="Blob_Column_List">
+    a_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="edu.hunau.love.pojo.ActivityExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_activity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="edu.hunau.love.pojo.ActivityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_activity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_activity
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <select id="selectAll" parameterType="edu.hunau.love.pojo.Activity" resultMap="ResultMapWithBLOBs">
+  select 
+   <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_activity
+    where a_on='正在进行'
+    and a_checked='已审核'
+     order by a_dotime desc
+  </select>
+  <select id="selectAllMyTeamActivity" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+   <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_activity
+    where a_teamname=#{aTeamname,jdbcType=VARCHAR}
+    and a_checked='已审核'
+     order by a_dotime desc
+  </select>
+   <select id="selectAllActivity" parameterType="edu.hunau.love.pojo.Activity" resultMap="ResultMapWithBLOBs">
+  select 
+   <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_activity
+    and a_checked='已审核'
+     order by a_dotime desc
+  </select>
+  <select id="selectMyTeamActivityOnTime" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  select
+   <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_activity
+    where a_teamname=#{aTeamname,jdbcType=VARCHAR}
+  	and a_on='正在进行'
+  	order by a_dotime desc
+  </select>
+    <select id="selectAllThisTeamChecked" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  select
+   <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_activity
+    where a_teamname=#{aTeamname,jdbcType=VARCHAR}
+  	and a_on='正在进行'
+  	and a_checked='已审核'
+  	order by a_dotime desc
+  </select>
+  <select id="selectAllNotCheckedAndRunning" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  select
+   <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_activity
+    where  a_on='正在进行'
+  	and a_checked='未审核'
+  	order by a_dotime desc
+  </select>
+   <select id="selectMyTeamActivityAlreadyFinished" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  select
+   <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_activity
+    where a_teamname=#{aTeamname,jdbcType=VARCHAR}
+  	and a_on='已经结束'
+  	and a_checked='已审核'
+  	order by a_dotime desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_activity
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="edu.hunau.love.pojo.ActivityExample">
+    delete from t_activity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="edu.hunau.love.pojo.Activity">
+    insert into t_activity (id, a_activity, a_dotime, 
+      a_address, a_manager, a_atypes, 
+      a_teamname,  a_content)
+    values (#{id,jdbcType=CHAR}, #{aActivity,jdbcType=VARCHAR}, #{aDotime,jdbcType=DATE}, 
+      #{aAddress,jdbcType=VARCHAR}, #{aManager,jdbcType=VARCHAR}, #{aAtypes,jdbcType=CHAR}, 
+      #{aTeamname,jdbcType=VARCHAR},  #{aContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="edu.hunau.love.pojo.Activity">
+    insert into t_activity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="aActivity != null">
+        a_activity,
+      </if>
+      <if test="aDotime != null">
+        a_dotime,
+      </if>
+      <if test="aAddress != null">
+        a_address,
+      </if>
+      <if test="aManager != null">
+        a_manager,
+      </if>
+      <if test="aAtypes != null">
+        a_atypes,
+      </if>
+      <if test="aTeamname != null">
+        a_teamname,
+      </if>
+      <if test="aCounts != null">
+        a_counts,
+      </if>
+      <if test="aOn != null">
+        a_on,
+      </if>
+      <if test="aChecked != null">
+        a_checked,
+      </if>
+      <if test="aContent != null">
+        a_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="aActivity != null">
+        #{aActivity,jdbcType=VARCHAR},
+      </if>
+      <if test="aDotime != null">
+        #{aDotime,jdbcType=DATE},
+      </if>
+      <if test="aAddress != null">
+        #{aAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="aManager != null">
+        #{aManager,jdbcType=VARCHAR},
+      </if>
+      <if test="aAtypes != null">
+        #{aAtypes,jdbcType=CHAR},
+      </if>
+      <if test="aTeamname != null">
+        #{aTeamname,jdbcType=VARCHAR},
+      </if>
+      <if test="aCounts != null">
+        #{aCounts,jdbcType=INTEGER},
+      </if>
+      <if test="aOn != null">
+        #{aOn,jdbcType=CHAR},
+      </if>
+      <if test="aChecked != null">
+        #{aChecked,jdbcType=CHAR},
+      </if>
+      <if test="aContent != null">
+        #{aContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="edu.hunau.love.pojo.ActivityExample" resultType="java.lang.Long">
+    select count(*) from t_activity
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_activity
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=CHAR},
+      </if>
+      <if test="record.aActivity != null">
+        a_activity = #{record.aActivity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aDotime != null">
+        a_dotime = #{record.aDotime,jdbcType=DATE},
+      </if>
+      <if test="record.aAddress != null">
+        a_address = #{record.aAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aManager != null">
+        a_manager = #{record.aManager,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aAtypes != null">
+        a_atypes = #{record.aAtypes,jdbcType=CHAR},
+      </if>
+      <if test="record.aTeamname != null">
+        a_teamname = #{record.aTeamname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aCounts != null">
+        a_counts = #{record.aCounts,jdbcType=INTEGER},
+      </if>
+      <if test="record.aOn != null">
+        a_on = #{record.aOn,jdbcType=CHAR},
+      </if>
+      <if test="record.aChecked != null">
+        a_checked = #{record.aChecked,jdbcType=CHAR},
+      </if>
+      <if test="record.aContent != null">
+        a_content = #{record.aContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_activity
+    set id = #{record.id,jdbcType=CHAR},
+      a_activity = #{record.aActivity,jdbcType=VARCHAR},
+      a_dotime = #{record.aDotime,jdbcType=DATE},
+      a_address = #{record.aAddress,jdbcType=VARCHAR},
+      a_manager = #{record.aManager,jdbcType=VARCHAR},
+      a_atypes = #{record.aAtypes,jdbcType=CHAR},
+      a_teamname = #{record.aTeamname,jdbcType=VARCHAR},
+      a_counts = #{record.aCounts,jdbcType=INTEGER},
+      a_on = #{record.aOn,jdbcType=CHAR},
+      a_checked = #{record.aChecked,jdbcType=CHAR},
+      a_content = #{record.aContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_activity
+    set id = #{record.id,jdbcType=CHAR},
+      a_activity = #{record.aActivity,jdbcType=VARCHAR},
+      a_dotime = #{record.aDotime,jdbcType=DATE},
+      a_address = #{record.aAddress,jdbcType=VARCHAR},
+      a_manager = #{record.aManager,jdbcType=VARCHAR},
+      a_atypes = #{record.aAtypes,jdbcType=CHAR},
+      a_teamname = #{record.aTeamname,jdbcType=VARCHAR},
+      a_counts = #{record.aCounts,jdbcType=INTEGER},
+      a_on = #{record.aOn,jdbcType=CHAR},
+      a_checked = #{record.aChecked,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="edu.hunau.love.pojo.Activity">
+    update t_activity
+    <set>
+      <if test="aActivity != null">
+        a_activity = #{aActivity,jdbcType=VARCHAR},
+      </if>
+      <if test="aDotime != null">
+        a_dotime = #{aDotime,jdbcType=DATE},
+      </if>
+      <if test="aAddress != null">
+        a_address = #{aAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="aManager != null">
+        a_manager = #{aManager,jdbcType=VARCHAR},
+      </if>
+      <if test="aAtypes != null">
+        a_atypes = #{aAtypes,jdbcType=CHAR},
+      </if>
+      <if test="aTeamname != null">
+        a_teamname = #{aTeamname,jdbcType=VARCHAR},
+      </if>
+      <if test="aCounts != null">
+        a_counts = #{aCounts,jdbcType=INTEGER},
+      </if>
+      <if test="aOn != null">
+        a_on = #{aOn,jdbcType=CHAR},
+      </if>
+      <if test="aChecked != null">
+        a_checked = #{aChecked,jdbcType=CHAR},
+      </if>
+      <if test="aContent != null">
+        a_content = #{aContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="edu.hunau.love.pojo.Activity">
+    update t_activity
+    set a_activity = #{aActivity,jdbcType=VARCHAR},
+      a_dotime = #{aDotime,jdbcType=DATE},
+      a_address = #{aAddress,jdbcType=VARCHAR},
+      a_manager = #{aManager,jdbcType=VARCHAR},
+      a_atypes = #{aAtypes,jdbcType=CHAR},
+      a_teamname = #{aTeamname,jdbcType=VARCHAR},
+      a_counts = #{aCounts,jdbcType=INTEGER},
+      a_on = #{aOn,jdbcType=CHAR},
+      a_checked = #{aChecked,jdbcType=CHAR},
+      a_content = #{aContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="edu.hunau.love.pojo.Activity">
+    update t_activity
+    set a_activity = #{aActivity,jdbcType=VARCHAR},
+      a_dotime = #{aDotime,jdbcType=DATE},
+      a_address = #{aAddress,jdbcType=VARCHAR},
+      a_manager = #{aManager,jdbcType=VARCHAR},
+      a_atypes = #{aAtypes,jdbcType=CHAR},
+      a_teamname = #{aTeamname,jdbcType=VARCHAR},
+      a_counts = #{aCounts,jdbcType=INTEGER},
+      a_on = #{aOn,jdbcType=CHAR},
+      a_checked = #{aChecked,jdbcType=CHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

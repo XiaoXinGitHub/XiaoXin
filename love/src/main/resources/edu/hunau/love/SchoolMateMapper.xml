@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hunau.love.mapper.SchoolMateMapper">
+  <resultMap id="BaseResultMap" type="edu.hunau.love.pojo.SchoolMate">
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="schoolmate_dotime" jdbcType="TIMESTAMP" property="schoolmateDotime" />
+    <result column="schoolmate_img" jdbcType="VARCHAR" property="schoolmateImg" />
+    <result column="schoolmate_checked" jdbcType="CHAR" property="schoolmateChecked" />
+    <result column="schoolmate_username" jdbcType="VARCHAR" property="schoolmateUsername" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="edu.hunau.love.pojo.SchoolMate">
+    <result column="schoolmate_info" jdbcType="LONGVARCHAR" property="schoolmateInfo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, schoolmate_dotime, schoolmate_img, schoolmate_checked, schoolmate_username
+  </sql>
+  <sql id="Blob_Column_List">
+    schoolmate_info
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="edu.hunau.love.pojo.SchoolMateExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_schoolmate
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="edu.hunau.love.pojo.SchoolMateExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_schoolmate
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_schoolmate
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <select id="selectAllAlreadyChecked" parameterType="edu.hunau.love.pojo.SchoolMate" resultMap="ResultMapWithBLOBs">
+   select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_schoolmate
+    where schoolmate_checked='已审核'
+    order by schoolmate_dotime desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_schoolmate
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="edu.hunau.love.pojo.SchoolMateExample">
+    delete from t_schoolmate
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="edu.hunau.love.pojo.SchoolMate">
+    insert into t_schoolmate (id, schoolmate_img, schoolmate_username, schoolmate_info)
+    values (#{id,jdbcType=CHAR}, #{schoolmateImg,jdbcType=VARCHAR},#{schoolmateUsername,jdbcType=VARCHAR}, 
+    #{schoolmateInfo,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="edu.hunau.love.pojo.SchoolMate">
+    insert into t_schoolmate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="schoolmateDotime != null">
+        schoolmate_dotime,
+      </if>
+      <if test="schoolmateImg != null">
+        schoolmate_img,
+      </if>
+      <if test="schoolmateChecked != null">
+        schoolmate_checked,
+      </if>
+      <if test="schoolmateUsername != null">
+        schoolmate_username,
+      </if>
+      <if test="schoolmateInfo != null">
+        schoolmate_info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="schoolmateDotime != null">
+        #{schoolmateDotime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schoolmateImg != null">
+        #{schoolmateImg,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolmateChecked != null">
+        #{schoolmateChecked,jdbcType=CHAR},
+      </if>
+      <if test="schoolmateUsername != null">
+        #{schoolmateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolmateInfo != null">
+        #{schoolmateInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="edu.hunau.love.pojo.SchoolMateExample" resultType="java.lang.Long">
+    select count(*) from t_schoolmate
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_schoolmate
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=CHAR},
+      </if>
+      <if test="record.schoolmateDotime != null">
+        schoolmate_dotime = #{record.schoolmateDotime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.schoolmateImg != null">
+        schoolmate_img = #{record.schoolmateImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolmateChecked != null">
+        schoolmate_checked = #{record.schoolmateChecked,jdbcType=CHAR},
+      </if>
+      <if test="record.schoolmateUsername != null">
+        schoolmate_username = #{record.schoolmateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schoolmateInfo != null">
+        schoolmate_info = #{record.schoolmateInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_schoolmate
+    set id = #{record.id,jdbcType=CHAR},
+      schoolmate_dotime = #{record.schoolmateDotime,jdbcType=TIMESTAMP},
+      schoolmate_img = #{record.schoolmateImg,jdbcType=VARCHAR},
+      schoolmate_checked = #{record.schoolmateChecked,jdbcType=CHAR},
+      schoolmate_username = #{record.schoolmateUsername,jdbcType=VARCHAR},
+      schoolmate_info = #{record.schoolmateInfo,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_schoolmate
+    set id = #{record.id,jdbcType=CHAR},
+      schoolmate_dotime = #{record.schoolmateDotime,jdbcType=TIMESTAMP},
+      schoolmate_img = #{record.schoolmateImg,jdbcType=VARCHAR},
+      schoolmate_checked = #{record.schoolmateChecked,jdbcType=CHAR},
+      schoolmate_username = #{record.schoolmateUsername,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="edu.hunau.love.pojo.SchoolMate">
+    update t_schoolmate
+    <set>
+      <if test="schoolmateDotime != null">
+        schoolmate_dotime = #{schoolmateDotime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="schoolmateImg != null">
+        schoolmate_img = #{schoolmateImg,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolmateChecked != null">
+        schoolmate_checked = #{schoolmateChecked,jdbcType=CHAR},
+      </if>
+      <if test="schoolmateUsername != null">
+        schoolmate_username = #{schoolmateUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolmateInfo != null">
+        schoolmate_info = #{schoolmateInfo,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="edu.hunau.love.pojo.SchoolMate">
+    update t_schoolmate
+    set schoolmate_dotime = #{schoolmateDotime,jdbcType=TIMESTAMP},
+      schoolmate_img = #{schoolmateImg,jdbcType=VARCHAR},
+      schoolmate_checked = #{schoolmateChecked,jdbcType=CHAR},
+      schoolmate_username = #{schoolmateUsername,jdbcType=VARCHAR},
+      schoolmate_info = #{schoolmateInfo,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="edu.hunau.love.pojo.SchoolMate">
+    update t_schoolmate
+    set schoolmate_dotime = #{schoolmateDotime,jdbcType=TIMESTAMP},
+      schoolmate_img = #{schoolmateImg,jdbcType=VARCHAR},
+      schoolmate_checked = #{schoolmateChecked,jdbcType=CHAR},
+      schoolmate_username = #{schoolmateUsername,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hunau.love.mapper.UserMapper">
+	<resultMap id="BaseResultMap" type="edu.hunau.love.pojo.User">
+		<id column="id" jdbcType="CHAR" property="id" />
+		<result column="u_username" jdbcType="VARCHAR" property="uUsername" />
+		<result column="u_pwd" jdbcType="CHAR" property="uPwd" />
+		<result column="u_sex" jdbcType="CHAR" property="uSex" />
+		<result column="u_truename" jdbcType="VARCHAR" property="uTruename" />
+		<result column="u_s_id" jdbcType="VARCHAR" property="uSId" />
+		<result column="u_email" jdbcType="VARCHAR" property="uEmail" />
+		<result column="u_image" jdbcType="VARCHAR" property="uImage" />
+		<result column="u_team_name" jdbcType="VARCHAR" property="uTeamName" />
+		<result column="u_peopletypes" jdbcType="CHAR" property="uPeopletypes" />
+		<result column="u_dotime" jdbcType="TIMESTAMP" property="uDotime" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, u_username, u_pwd, u_sex, u_truename, u_s_id, u_email,
+		u_image,
+		u_team_name,
+		u_peopletypes, u_dotime
+	</sql>
+	<select id="selectByExample" parameterType="edu.hunau.love.pojo.UserExample"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where id = #{id,jdbcType=CHAR}
+	</select>
+	<select id="selectByUsernameAndPwd" parameterType="edu.hunau.love.pojo.User"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where u_username=#{uUsername,jdbcType=VARCHAR}
+		and
+		u_pwd=#{uPwd,jdbcType=CHAR}
+	</select>
+	<select id="selectByUsername" parameterType="edu.hunau.love.pojo.User"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where u_username=#{uUsername,jdbcType=VARCHAR}
+	</select>
+	<select id="selectAll" parameterType="edu.hunau.love.pojo.User"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where u_peopletypes !='管理员'
+		order by u_username asc
+	</select>
+	<select id="SelectByEmail" parameterType="edu.hunau.love.pojo.User"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where u_email=#{uEmail,jdbcType=VARCHAR}
+	</select>
+	<select id="selectBySid" parameterType="edu.hunau.love.pojo.User"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where u_s_id=#{uSId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_user
+		where id = #{id,jdbcType=CHAR}
+	</delete>
+	<delete id="deleteByUsername" parameterType="java.lang.String">
+		delete from t_user
+		where u_username = #{uUsername,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample" parameterType="edu.hunau.love.pojo.UserExample">
+		delete from t_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="edu.hunau.love.pojo.User">
+		insert into t_user (id,
+		u_username, u_pwd,
+		u_truename, u_s_id,
+		u_email, u_image, u_team_name)
+		values (#{id,jdbcType=CHAR}, #{uUsername,jdbcType=VARCHAR},
+		#{uPwd,jdbcType=CHAR},
+		#{uTruename,jdbcType=VARCHAR},
+		#{uSId,jdbcType=VARCHAR},
+		#{uEmail,jdbcType=VARCHAR},
+		#{uImage,jdbcType=VARCHAR}, #{uTeamName,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="edu.hunau.love.pojo.User">
+		insert into t_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="uUsername != null">
+				u_username,
+			</if>
+			<if test="uPwd != null">
+				u_pwd,
+			</if>
+			<if test="uSex != null">
+				u_sex,
+			</if>
+			<if test="uTruename != null">
+				u_truename,
+			</if>
+			<if test="uSId != null">
+				u_s_id,
+			</if>
+			<if test="uEmail != null">
+				u_email,
+			</if>
+			<if test="uImage != null">
+				u_image,
+			</if>
+			<if test="uTeamName != null">
+				u_team_name,
+			</if>
+			<if test="uPeopletypes != null">
+				u_peopletypes,
+			</if>
+			<if test="uDotime != null">
+				u_dotime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=CHAR},
+			</if>
+			<if test="uUsername != null">
+				#{uUsername,jdbcType=VARCHAR},
+			</if>
+			<if test="uPwd != null">
+				#{uPwd,jdbcType=CHAR},
+			</if>
+			<if test="uSex != null">
+				#{uSex,jdbcType=CHAR},
+			</if>
+			<if test="uTruename != null">
+				#{uTruename,jdbcType=VARCHAR},
+			</if>
+			<if test="uSId != null">
+				#{uSId,jdbcType=VARCHAR},
+			</if>
+			<if test="uEmail != null">
+				#{uEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="uImage != null">
+				#{uImage,jdbcType=VARCHAR},
+			</if>
+			<if test="uTeamName != null">
+				#{uTeamName,jdbcType=VARCHAR},
+			</if>
+			<if test="uPeopletypes != null">
+				#{uPeopletypes,jdbcType=CHAR},
+			</if>
+			<if test="uDotime != null">
+				#{uDotime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="edu.hunau.love.pojo.UserExample"
+		resultType="java.lang.Long">
+		select count(*) from t_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_user
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=CHAR},
+			</if>
+			<if test="record.uUsername != null">
+				u_username = #{record.uUsername,jdbcType=VARCHAR},
+			</if>
+			<if test="record.uPwd != null">
+				u_pwd = #{record.uPwd,jdbcType=CHAR},
+			</if>
+			<if test="record.uSex != null">
+				u_sex = #{record.uSex,jdbcType=CHAR},
+			</if>
+			<if test="record.uTruename != null">
+				u_truename = #{record.uTruename,jdbcType=VARCHAR},
+			</if>
+			<if test="record.uSId != null">
+				u_s_id = #{record.uSId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.uEmail != null">
+				u_email = #{record.uEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="record.uImage != null">
+				u_image = #{record.uImage,jdbcType=VARCHAR},
+			</if>
+			<if test="record.uTeamName != null">
+				u_team_name = #{record.uTeamName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.uPeopletypes != null">
+				u_peopletypes = #{record.uPeopletypes,jdbcType=CHAR},
+			</if>
+			<if test="record.uDotime != null">
+				u_dotime = #{record.uDotime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_user
+		set id = #{record.id,jdbcType=CHAR},
+		u_username =
+		#{record.uUsername,jdbcType=VARCHAR},
+		u_pwd =
+		#{record.uPwd,jdbcType=CHAR},
+		u_sex = #{record.uSex,jdbcType=CHAR},
+		u_truename = #{record.uTruename,jdbcType=VARCHAR},
+		u_s_id =
+		#{record.uSId,jdbcType=VARCHAR},
+		u_email =
+		#{record.uEmail,jdbcType=VARCHAR},
+		u_image =
+		#{record.uImage,jdbcType=VARCHAR},
+		u_team_name =
+		#{record.uTeamName,jdbcType=VARCHAR},
+		u_peopletypes =
+		#{record.uPeopletypes,jdbcType=CHAR},
+		u_dotime =
+		#{record.uDotime,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="edu.hunau.love.pojo.User">
+		update t_user
+		<set>
+			<if test="uUsername != null">
+				u_username = #{uUsername,jdbcType=VARCHAR},
+			</if>
+			<if test="uPwd != null">
+				u_pwd = #{uPwd,jdbcType=CHAR},
+			</if>
+			<if test="uSex != null">
+				u_sex = #{uSex,jdbcType=CHAR},
+			</if>
+			<if test="uTruename != null">
+				u_truename = #{uTruename,jdbcType=VARCHAR},
+			</if>
+			<if test="uSId != null">
+				u_s_id = #{uSId,jdbcType=VARCHAR},
+			</if>
+			<if test="uEmail != null">
+				u_email = #{uEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="uImage != null">
+				u_image = #{uImage,jdbcType=VARCHAR},
+			</if>
+			<if test="uTeamName != null">
+				u_team_name = #{uTeamName,jdbcType=VARCHAR},
+			</if>
+			<if test="uPeopletypes != null">
+				u_peopletypes = #{uPeopletypes,jdbcType=CHAR},
+			</if>
+			<if test="uDotime != null">
+				u_dotime = #{uDotime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=CHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="edu.hunau.love.pojo.User">
+		update t_user
+		set
+		u_username = #{uUsername,jdbcType=VARCHAR},
+		u_pwd =
+		#{uPwd,jdbcType=CHAR},
+		u_sex = #{uSex,jdbcType=CHAR},
+		u_truename =
+		#{uTruename,jdbcType=VARCHAR},
+		u_s_id = #{uSId,jdbcType=VARCHAR},
+		u_email = #{uEmail,jdbcType=VARCHAR},
+		u_image =
+		#{uImage,jdbcType=VARCHAR},
+		u_team_name =
+		#{uTeamName,jdbcType=VARCHAR},
+		u_peopletypes =
+		#{uPeopletypes,jdbcType=CHAR},
+		u_dotime = #{uDotime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=CHAR}
+	</update>
+	<update id="updateByUsername" parameterType="edu.hunau.love.pojo.User">
+		update t_user
+		<set>
+			<if test="uPwd != null">
+				u_pwd = #{uPwd,jdbcType=CHAR},
+			</if>
+			<if test="uSex != null">
+				u_sex = #{uSex,jdbcType=CHAR},
+			</if>
+			<if test="uTruename != null">
+				u_truename = #{uTruename,jdbcType=VARCHAR},
+			</if>
+			<if test="uSId != null">
+				u_s_id = #{uSId,jdbcType=VARCHAR},
+			</if>
+			<if test="uEmail != null">
+				u_email = #{uEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="uImage != null">
+				u_image = #{uImage,jdbcType=VARCHAR},
+			</if>
+			<if test="uTeamName != null">
+				u_team_name = #{uTeamName,jdbcType=VARCHAR},
+			</if>
+			<if test="uPeopletypes != null">
+				u_peopletypes = #{uPeopletypes,jdbcType=CHAR},
+			</if>
+			<if test="uDotime != null">
+				u_dotime = #{uDotime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where u_username= #{uUsername,jdbcType=VARCHAR}
+	</update>
+</mapper>

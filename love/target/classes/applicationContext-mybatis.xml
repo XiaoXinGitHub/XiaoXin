@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- spring容器管理SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!--配置数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 设定别名 -->
+		<property name="typeAliasesPackage" value="edu.hunau.love.pojo" />
+		<!-- 注册映射文件 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:edu/hunau/love/*Mapper.xml</value>
+			</list>
+		</property>
+		<!-- pageHelper分页插件配置 -->
+		<property name="plugins">
+			<array>
+				<bean class="com.github.pagehelper.PageInterceptor">
+					<property name="properties">
+						<!--使用下面的方式配置参数，一行配置一个 -->
+						<value>
+							offsetAsPageNum=true
+							rowBoundsWithCount=true
+							pageSizeZero=true
+							reasonable=true
+						</value>
+					</property>
+				</bean>
+			</array>
+		</property>
+		
+	</bean>
+
+	<!-- 为Mapper接口创建代理对象 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 指定Mapper接口存在的包:默认的名称为小驼峰 -->
+		<property name="basePackage" value="edu.hunau.love.mapper" />
+		<!--注入SqlSessionFactory对象 -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryBean" />
+	</bean>
+
+</beans>

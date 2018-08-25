@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hunau.love.mapper.TeamMapper">
+	<resultMap id="BaseResultMap" type="edu.hunau.love.pojo.Team">
+		<id column="team_id" jdbcType="CHAR" property="teamId" />
+		<result column="team_name" jdbcType="VARCHAR" property="teamName" />
+		<result column="found_name" jdbcType="VARCHAR" property="foundName" />
+		<result column="team_time" jdbcType="TIMESTAMP" property="teamTime" />
+		<result column="teacher" jdbcType="VARCHAR" property="teacher" />
+		<result column="team_email" jdbcType="VARCHAR" property="teamEmail" />
+		<result column="team_image" jdbcType="VARCHAR" property="teamImage" />
+		<result column="team_colleage" jdbcType="VARCHAR" property="teamColleage" />
+		<result column="team_leader" jdbcType="VARCHAR" property="teamLeader" />
+		<result column="team_grade" jdbcType="CHAR" property="teamGrade" />
+		<result column="ream_checked" jdbcType="CHAR" property="reamChecked" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="edu.hunau.love.pojo.Team">
+		<result column="team_introduce" jdbcType="LONGVARCHAR"
+			property="teamIntroduce" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		team_id, team_name, found_name, team_time, teacher, team_email, team_image,
+		team_colleage,
+		team_leader, team_grade, ream_checked
+	</sql>
+	<sql id="Blob_Column_List">
+		team_introduce
+	</sql>
+	<select id="selectByExampleWithBLOBs" parameterType="edu.hunau.love.pojo.TeamExample"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_team
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" parameterType="edu.hunau.love.pojo.TeamExample"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_team
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_team
+		where team_id = #{teamId,jdbcType=CHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_team
+		where team_id = #{teamId,jdbcType=CHAR}
+	</delete>
+	<delete id="deleteByExample" parameterType="edu.hunau.love.pojo.TeamExample">
+		delete from t_team
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="edu.hunau.love.pojo.Team">
+		insert into t_team (team_id, team_name, found_name,
+		team_time, teacher, team_email,
+		team_image, team_colleage, team_leader,
+		team_grade, ream_checked, team_introduce
+		)
+		values (#{teamId,jdbcType=CHAR}, #{teamName,jdbcType=VARCHAR},
+		#{foundName,jdbcType=VARCHAR},
+		#{teamTime,jdbcType=TIMESTAMP}, #{teacher,jdbcType=VARCHAR}, #{teamEmail,jdbcType=VARCHAR},
+		#{teamImage,jdbcType=VARCHAR}, #{teamColleage,jdbcType=VARCHAR},
+		#{teamLeader,jdbcType=VARCHAR},
+		#{teamGrade,jdbcType=CHAR}, #{reamChecked,jdbcType=CHAR}, #{teamIntroduce,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="edu.hunau.love.pojo.Team">
+		insert into t_team
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="teamId != null">
+				team_id,
+			</if>
+			<if test="teamName != null">
+				team_name,
+			</if>
+			<if test="foundName != null">
+				found_name,
+			</if>
+			<if test="teamTime != null">
+				team_time,
+			</if>
+			<if test="teacher != null">
+				teacher,
+			</if>
+			<if test="teamEmail != null">
+				team_email,
+			</if>
+			<if test="teamImage != null">
+				team_image,
+			</if>
+			<if test="teamColleage != null">
+				team_colleage,
+			</if>
+			<if test="teamLeader != null">
+				team_leader,
+			</if>
+			<if test="teamGrade != null">
+				team_grade,
+			</if>
+			<if test="reamChecked != null">
+				ream_checked,
+			</if>
+			<if test="teamIntroduce != null">
+				team_introduce,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="teamId != null">
+				#{teamId,jdbcType=CHAR},
+			</if>
+			<if test="teamName != null">
+				#{teamName,jdbcType=VARCHAR},
+			</if>
+			<if test="foundName != null">
+				#{foundName,jdbcType=VARCHAR},
+			</if>
+			<if test="teamTime != null">
+				#{teamTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="teacher != null">
+				#{teacher,jdbcType=VARCHAR},
+			</if>
+			<if test="teamEmail != null">
+				#{teamEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="teamImage != null">
+				#{teamImage,jdbcType=VARCHAR},
+			</if>
+			<if test="teamColleage != null">
+				#{teamColleage,jdbcType=VARCHAR},
+			</if>
+			<if test="teamLeader != null">
+				#{teamLeader,jdbcType=VARCHAR},
+			</if>
+			<if test="teamGrade != null">
+				#{teamGrade,jdbcType=CHAR},
+			</if>
+			<if test="reamChecked != null">
+				#{reamChecked,jdbcType=CHAR},
+			</if>
+			<if test="teamIntroduce != null">
+				#{teamIntroduce,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="edu.hunau.love.pojo.TeamExample"
+		resultType="java.lang.Long">
+		select count(*) from t_team
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<select id="selectAllTeam" parameterType="edu.hunau.love.pojo.Team"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_team
+		where ream_checked='已审核'
+		order by team_name asc
+	</select>
+	<select id="selectByTeamName" parameterType="edu.hunau.love.pojo.Team"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_team
+		where team_name=#{teamName,jdbcType=VARCHAR}
+		and
+		ream_checked='已审核'
+	</select>
+	<select id="selectAllNotChecked" parameterType="edu.hunau.love.pojo.Team"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_team
+		where ream_checked='未审核'
+		order by team_time desc
+	</select>
+	<update id="updateByTeamName" parameterType="edu.hunau.love.pojo.Team">
+		update t_team
+		set
+		found_name =
+		#{foundName,jdbcType=VARCHAR},
+		team_time =
+		#{teamTime,jdbcType=TIMESTAMP},
+		teacher = #{teacher,jdbcType=VARCHAR},
+		team_email = #{teamEmail,jdbcType=VARCHAR},
+		team_image =
+		#{teamImage,jdbcType=VARCHAR},
+		team_colleage =
+		#{teamColleage,jdbcType=VARCHAR},
+		team_leader =
+		#{teamLeader,jdbcType=VARCHAR}
+		where team_name =
+		#{teamName,jdbcType=VARCHAR}
+	</update>
+	<update id="updateTeamChecked" parameterType="java.lang.String">
+	update t_team
+	set
+	ream_checked='已审核'
+	where team_name=#{teamName,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_team
+		<set>
+			<if test="record.teamId != null">
+				team_id = #{record.teamId,jdbcType=CHAR},
+			</if>
+			<if test="record.teamName != null">
+				team_name = #{record.teamName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.foundName != null">
+				found_name = #{record.foundName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.teamTime != null">
+				team_time = #{record.teamTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.teacher != null">
+				teacher = #{record.teacher,jdbcType=VARCHAR},
+			</if>
+			<if test="record.teamEmail != null">
+				team_email = #{record.teamEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="record.teamImage != null">
+				team_image = #{record.teamImage,jdbcType=VARCHAR},
+			</if>
+			<if test="record.teamColleage != null">
+				team_colleage = #{record.teamColleage,jdbcType=VARCHAR},
+			</if>
+			<if test="record.teamLeader != null">
+				team_leader = #{record.teamLeader,jdbcType=VARCHAR},
+			</if>
+			<if test="record.teamGrade != null">
+				team_grade = #{record.teamGrade,jdbcType=CHAR},
+			</if>
+			<if test="record.reamChecked != null">
+				ream_checked = #{record.reamChecked,jdbcType=CHAR},
+			</if>
+			<if test="record.teamIntroduce != null">
+				team_introduce = #{record.teamIntroduce,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateTeam" parameterType="edu.hunau.love.pojo.Team">
+	update t_team
+		<set>
+			<if test="teamId != null">
+				team_id = #{teamId,jdbcType=CHAR},
+			</if>
+			<if test="foundName != null">
+				found_name = #{foundName,jdbcType=VARCHAR},
+			</if>
+			<if test="teamTime != null">
+				team_time = #{teamTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="teacher != null">
+				teacher = #{teacher,jdbcType=VARCHAR},
+			</if>
+			<if test="teamEmail != null">
+				team_email = #{teamEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="teamImage != null">
+				team_image = #{teamImage,jdbcType=VARCHAR},
+			</if>
+			<if test="teamColleage != null">
+				team_colleage = #{teamColleage,jdbcType=VARCHAR},
+			</if>
+			<if test="teamLeader != null">
+				team_leader = #{teamLeader,jdbcType=VARCHAR},
+			</if>
+			<if test="teamGrade != null">
+				team_grade = #{teamGrade,jdbcType=CHAR},
+			</if>
+			<if test="reamChecked != null">
+				ream_checked = #{reamChecked,jdbcType=CHAR},
+			</if>
+			<if test="teamIntroduce != null">
+				team_introduce = #{teamIntroduce,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where team_name=#{teamName,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update t_team
+		set team_id = #{record.teamId,jdbcType=CHAR},
+		team_name = #{record.teamName,jdbcType=VARCHAR},
+		found_name = #{record.foundName,jdbcType=VARCHAR},
+		team_time = #{record.teamTime,jdbcType=TIMESTAMP},
+		teacher = #{record.teacher,jdbcType=VARCHAR},
+		team_email = #{record.teamEmail,jdbcType=VARCHAR},
+		team_image = #{record.teamImage,jdbcType=VARCHAR},
+		team_colleage = #{record.teamColleage,jdbcType=VARCHAR},
+		team_leader = #{record.teamLeader,jdbcType=VARCHAR},
+		team_grade = #{record.teamGrade,jdbcType=CHAR},
+		ream_checked = #{record.reamChecked,jdbcType=CHAR},
+		team_introduce = #{record.teamIntroduce,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_team
+		set team_id = #{record.teamId,jdbcType=CHAR},
+		team_name = #{record.teamName,jdbcType=VARCHAR},
+		found_name = #{record.foundName,jdbcType=VARCHAR},
+		team_time = #{record.teamTime,jdbcType=TIMESTAMP},
+		teacher = #{record.teacher,jdbcType=VARCHAR},
+		team_email = #{record.teamEmail,jdbcType=VARCHAR},
+		team_image = #{record.teamImage,jdbcType=VARCHAR},
+		team_colleage = #{record.teamColleage,jdbcType=VARCHAR},
+		team_leader = #{record.teamLeader,jdbcType=VARCHAR},
+		team_grade = #{record.teamGrade,jdbcType=CHAR},
+		ream_checked = #{record.reamChecked,jdbcType=CHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="edu.hunau.love.pojo.Team">
+		update t_team
+		<set>
+			<if test="teamName != null">
+				team_name = #{teamName,jdbcType=VARCHAR},
+			</if>
+			<if test="foundName != null">
+				found_name = #{foundName,jdbcType=VARCHAR},
+			</if>
+			<if test="teamTime != null">
+				team_time = #{teamTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="teacher != null">
+				teacher = #{teacher,jdbcType=VARCHAR},
+			</if>
+			<if test="teamEmail != null">
+				team_email = #{teamEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="teamImage != null">
+				team_image = #{teamImage,jdbcType=VARCHAR},
+			</if>
+			<if test="teamColleage != null">
+				team_colleage = #{teamColleage,jdbcType=VARCHAR},
+			</if>
+			<if test="teamLeader != null">
+				team_leader = #{teamLeader,jdbcType=VARCHAR},
+			</if>
+			<if test="teamGrade != null">
+				team_grade = #{teamGrade,jdbcType=CHAR},
+			</if>
+			<if test="reamChecked != null">
+				ream_checked = #{reamChecked,jdbcType=CHAR},
+			</if>
+			<if test="teamIntroduce != null">
+				team_introduce = #{teamIntroduce,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where team_id = #{teamId,jdbcType=CHAR}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="edu.hunau.love.pojo.Team">
+		update t_team
+		set team_name = #{teamName,jdbcType=VARCHAR},
+		found_name = #{foundName,jdbcType=VARCHAR},
+		team_time = #{teamTime,jdbcType=TIMESTAMP},
+		teacher = #{teacher,jdbcType=VARCHAR},
+		team_email = #{teamEmail,jdbcType=VARCHAR},
+		team_image = #{teamImage,jdbcType=VARCHAR},
+		team_colleage = #{teamColleage,jdbcType=VARCHAR},
+		team_leader = #{teamLeader,jdbcType=VARCHAR},
+		team_grade = #{teamGrade,jdbcType=CHAR},
+		ream_checked = #{reamChecked,jdbcType=CHAR},
+		team_introduce = #{teamIntroduce,jdbcType=LONGVARCHAR}
+		where team_id = #{teamId,jdbcType=CHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="edu.hunau.love.pojo.Team">
+		update t_team
+		set team_name = #{teamName,jdbcType=VARCHAR},
+		found_name = #{foundName,jdbcType=VARCHAR},
+		team_time = #{teamTime,jdbcType=TIMESTAMP},
+		teacher = #{teacher,jdbcType=VARCHAR},
+		team_email = #{teamEmail,jdbcType=VARCHAR},
+		team_image = #{teamImage,jdbcType=VARCHAR},
+		team_colleage = #{teamColleage,jdbcType=VARCHAR},
+		team_leader = #{teamLeader,jdbcType=VARCHAR},
+		team_grade = #{teamGrade,jdbcType=CHAR},
+		ream_checked = #{reamChecked,jdbcType=CHAR}
+		where team_id = #{teamId,jdbcType=CHAR}
+	</update>
+</mapper>

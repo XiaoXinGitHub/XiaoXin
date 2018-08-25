@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hunau.love.mapper.NoticeMapper">
+  <resultMap id="BaseResultMap" type="edu.hunau.love.pojo.Notice">
+    <id column="id" jdbcType="CHAR" property="id" />
+    <result column="notice_dotime" jdbcType="TIMESTAMP" property="noticeDotime" />
+    <result column="notice_username" jdbcType="VARCHAR" property="noticeUsername" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="edu.hunau.love.pojo.Notice">
+    <result column="notice_content" jdbcType="LONGVARCHAR" property="noticeContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, notice_dotime, notice_username
+  </sql>
+  <sql id="Blob_Column_List">
+    notice_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="edu.hunau.love.pojo.NoticeExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="edu.hunau.love.pojo.NoticeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_notice
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_notice
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="edu.hunau.love.pojo.NoticeExample">
+    delete from t_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="edu.hunau.love.pojo.Notice">
+    insert into t_notice (id, notice_dotime, notice_username, 
+      notice_content)
+    values (#{id,jdbcType=CHAR}, #{noticeDotime,jdbcType=TIMESTAMP}, #{noticeUsername,jdbcType=VARCHAR}, 
+      #{noticeContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="edu.hunau.love.pojo.Notice">
+    insert into t_notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="noticeDotime != null">
+        notice_dotime,
+      </if>
+      <if test="noticeUsername != null">
+        notice_username,
+      </if>
+      <if test="noticeContent != null">
+        notice_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="noticeDotime != null">
+        #{noticeDotime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noticeUsername != null">
+        #{noticeUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeContent != null">
+        #{noticeContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="edu.hunau.love.pojo.NoticeExample" resultType="java.lang.Long">
+    select count(*) from t_notice
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_notice
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=CHAR},
+      </if>
+      <if test="record.noticeDotime != null">
+        notice_dotime = #{record.noticeDotime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.noticeUsername != null">
+        notice_username = #{record.noticeUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.noticeContent != null">
+        notice_content = #{record.noticeContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_notice
+    set id = #{record.id,jdbcType=CHAR},
+      notice_dotime = #{record.noticeDotime,jdbcType=TIMESTAMP},
+      notice_username = #{record.noticeUsername,jdbcType=VARCHAR},
+      notice_content = #{record.noticeContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_notice
+    set id = #{record.id,jdbcType=CHAR},
+      notice_dotime = #{record.noticeDotime,jdbcType=TIMESTAMP},
+      notice_username = #{record.noticeUsername,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="edu.hunau.love.pojo.Notice">
+    update t_notice
+    <set>
+      <if test="noticeDotime != null">
+        notice_dotime = #{noticeDotime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="noticeUsername != null">
+        notice_username = #{noticeUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeContent != null">
+        notice_content = #{noticeContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="edu.hunau.love.pojo.Notice">
+    update t_notice
+    set notice_dotime = #{noticeDotime,jdbcType=TIMESTAMP},
+      notice_username = #{noticeUsername,jdbcType=VARCHAR},
+      notice_content = #{noticeContent,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="edu.hunau.love.pojo.Notice">
+    update t_notice
+    set notice_dotime = #{noticeDotime,jdbcType=TIMESTAMP},
+      notice_username = #{noticeUsername,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

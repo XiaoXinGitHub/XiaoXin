@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hunau.love.mapper.TeamMemberMapper">
+	<resultMap id="BaseResultMap" type="edu.hunau.love.pojo.TeamMember">
+		<id column="u_name" jdbcType="CHAR" property="uName" />
+		<result column="team_names" jdbcType="VARCHAR" property="teamNames" />
+		<result column="checked" jdbcType="CHAR" property="checked" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" prefixOverrides="and" suffix=")">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach close=")" collection="criterion.value" item="listItem"
+										open="(" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		u_name, team_names, checked
+	</sql>
+	<select id="selectByExample" parameterType="edu.hunau.love.pojo.TeamMemberExample"
+		resultMap="BaseResultMap">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_team_member
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_team_member
+		where u_name = #{uName,jdbcType=CHAR}
+	</select>
+	<select id="selectByCheckedTeamNames" parameterType="java.lang.String" resultMap="BaseResultMap">
+	select
+		<include refid="Base_Column_List" />
+		from t_team_member
+		where team_names =#{teamNames,jdbcType=VARCHAR}
+		and checked='已审核'
+	</select>
+	<select id="selectByTeamNames" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_team_member
+		where team_names=#{teamNames,jdbcType=VARCHAR}
+		and checked='未审核'
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_team_member
+		where u_name = #{uName,jdbcType=CHAR}
+	</delete>
+	<delete id="deleteByExample" parameterType="edu.hunau.love.pojo.TeamMemberExample">
+		delete from t_team_member
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="edu.hunau.love.pojo.TeamMember">
+		insert into t_team_member (u_name, team_names, checked
+		)
+		values (#{uName,jdbcType=CHAR}, #{teamNames,jdbcType=VARCHAR},
+		#{checked,jdbcType=CHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="edu.hunau.love.pojo.TeamMember">
+		insert into t_team_member
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uName != null">
+				u_name,
+			</if>
+			<if test="teamNames != null">
+				team_names,
+			</if>
+			<if test="checked != null">
+				checked,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uName != null">
+				#{uName,jdbcType=CHAR},
+			</if>
+			<if test="teamNames != null">
+				#{teamNames,jdbcType=VARCHAR},
+			</if>
+			<if test="checked != null">
+				#{checked,jdbcType=CHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="edu.hunau.love.pojo.TeamMemberExample"
+		resultType="java.lang.Long">
+		select count(*) from t_team_member
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_team_member
+		<set>
+			<if test="record.uName != null">
+				u_name = #{record.uName,jdbcType=CHAR},
+			</if>
+			<if test="record.teamNames != null">
+				team_names = #{record.teamNames,jdbcType=VARCHAR},
+			</if>
+			<if test="record.checked != null">
+				checked = #{record.checked,jdbcType=CHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_team_member
+		set u_name = #{record.uName,jdbcType=CHAR},
+		team_names = #{record.teamNames,jdbcType=VARCHAR},
+		checked = #{record.checked,jdbcType=CHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="edu.hunau.love.pojo.TeamMember">
+		update t_team_member
+		<set>
+			<if test="teamNames != null">
+				team_names = #{teamNames,jdbcType=VARCHAR},
+			</if>
+			<if test="checked != null">
+				checked = #{checked,jdbcType=CHAR},
+			</if>
+		</set>
+		where u_name = #{uName,jdbcType=CHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="edu.hunau.love.pojo.TeamMember">
+		update t_team_member
+		set team_names = #{teamNames,jdbcType=VARCHAR},
+		checked = #{checked,jdbcType=CHAR}
+		where u_name = #{uName,jdbcType=CHAR}
+	</update>
+</mapper>
